@@ -58,6 +58,9 @@ for (const ref of refs.filter((r) => /\.svg($|[?#])/i.test(r) && !/^https?:/i.te
   if (!/<svg[\s>]/i.test(svg) || !/<\/svg>\s*$/i.test(svg.trim())) fail(`malformed SVG: ${ref}`);
 }
 
+// 7. no leftover demo/sample-content notice on the public page
+if (/Demo landing page|fictional sample content/i.test(html)) fail('demo/sample-content notice present on page');
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
