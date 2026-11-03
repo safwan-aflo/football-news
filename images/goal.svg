@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f2236"/><stop offset="1" stop-color="#1d4a6e"/></linearGradient>
+<pattern id="net" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M0 11 L11 0 L22 11 L11 22Z" fill="none" stroke="#e8eef5" stroke-opacity=".45" stroke-width="1.5"/></pattern></defs>
+<rect width="800" height="500" fill="url(#g)"/>
+<rect y="380" width="800" height="120" fill="#1f6b3a"/>
+<rect x="110" y="90" width="580" height="290" fill="url(#net)"/>
+<path d="M110 380 L110 90 L690 90 L690 380" fill="none" stroke="#fff" stroke-width="14" stroke-linejoin="round"/>
+<g transform="translate(560 170) rotate(-15)"><circle r="44" fill="#f7f7f2"/><polygon points="0,-15 14,-5 9,13 -9,13 -14,-5" fill="#14181f"/><path d="M0 -15 L0 -44 M14 -5 L41 -15 M9 13 L24 36 M-9 13 L-24 36 M-14 -5 L-41 -15" stroke="#14181f" stroke-width="3"/></g>
+<g stroke="#ffd23f" stroke-width="5" stroke-linecap="round" opacity=".9"><line x1="470" y1="210" x2="420" y2="240"/><line x1="480" y1="240" x2="440" y2="280"/><line x1="500" y1="270" x2="470" y2="320"/></g>
+</svg>

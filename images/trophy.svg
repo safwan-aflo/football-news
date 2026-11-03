@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+<defs><radialGradient id="b" cx=".5" cy=".45" r=".7"><stop offset="0" stop-color="#4a1d1d"/><stop offset="1" stop-color="#140707"/></radialGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a8741a"/><stop offset=".45" stop-color="#ffe08a"/><stop offset="1" stop-color="#b9821f"/></linearGradient></defs>
+<rect width="800" height="500" fill="url(#b)"/>
+<g fill="#ffd23f" opacity=".8"><rect x="120" y="60" width="10" height="18" transform="rotate(20 125 69)"/><rect x="660" y="90" width="10" height="18" transform="rotate(-30 665 99)"/><rect x="220" y="140" width="8" height="14" fill="#e94b3c"/><rect x="580" y="50" width="8" height="14" fill="#e94b3c" transform="rotate(40 584 57)"/><rect x="700" y="210" width="8" height="14" fill="#fff"/><rect x="90" y="250" width="8" height="14" fill="#fff" transform="rotate(-20 94 257)"/></g>
+<path d="M300 90 L500 90 Q500 260 400 290 Q300 260 300 90Z" fill="url(#gold)"/>
+<path d="M300 120 Q230 120 240 180 Q250 230 320 235" fill="none" stroke="url(#gold)" stroke-width="18"/>
+<path d="M500 120 Q570 120 560 180 Q550 230 480 235" fill="none" stroke="url(#gold)" stroke-width="18"/>
+<rect x="380" y="285" width="40" height="60" fill="url(#gold)"/>
+<path d="M330 345 L470 345 L490 405 L310 405Z" fill="url(#gold)"/>
+<rect x="290" y="405" width="220" height="30" rx="4" fill="#2a1a0c"/>
+<ellipse cx="365" cy="150" rx="18" ry="50" fill="#fff" opacity=".25"/>
+</svg>

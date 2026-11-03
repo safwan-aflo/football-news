@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Touchline — Football News</title>
+<meta name="description" content="Touchline: match reports, transfer talk and tactics from around the game.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0e14; --paper:#f4f1ea; --card:#ffffff; --muted:#5d6472;
+    --accent:#e94b3c; --gold:#ffd23f; --pitch:#1f6b3a; --line:#e2ddd2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper:#0d1017; --card:#161a23; --ink:#eef0f4; --muted:#9aa3b2; --line:#252b37; }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+
+  /* ticker */
+  .ticker{background:var(--accent);color:#fff;font-size:.85rem;font-weight:700;overflow:hidden;white-space:nowrap}
+  .ticker-track{display:inline-flex;gap:48px;padding:8px 0;animation:scroll 30s linear infinite}
+  .ticker span b{color:var(--gold)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){.ticker-track{animation:none}}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:10;background:var(--ink);color:#fff}
+  @media (prefers-color-scheme: dark){header{background:#05070b}}
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:Anton,Impact,sans-serif;font-size:1.8rem;letter-spacing:1px;text-transform:uppercase}
+  .logo i{color:var(--gold);font-style:normal}
+  nav ul{display:flex;gap:28px;list-style:none;font-weight:500;font-size:.95rem}
+  nav ul a{opacity:.8}
+  nav ul a:hover{opacity:1;color:var(--gold)}
+  .btn{background:var(--gold);color:#111;font-weight:700;padding:10px 18px;border-radius:999px;font-size:.9rem;border:0;cursor:pointer}
+  .btn:hover{filter:brightness(1.05)}
+  @media (max-width:760px){nav ul{display:none}}
+
+  /* hero */
+  .hero{position:relative;height:min(78vh,640px);min-height:440px;color:#fff;overflow:hidden}
+  .hero img{position:absolute;inset:0}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,13,.92) 0%,rgba(5,7,13,.55) 55%,rgba(5,7,13,.1) 100%)}
+  .hero .wrap{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:center}
+  .tag{display:inline-block;background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px;width:max-content}
+  .hero h1{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(2.6rem,7vw,5.6rem);line-height:.95;margin:16px 0;max-width:13ch}
+  .hero h1 em{color:var(--gold);font-style:normal}
+  .hero p{max-width:46ch;font-size:1.1rem;opacity:.85;margin-bottom:28px}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .btn-ghost{border:2px solid rgba(255,255,255,.6);color:#fff;padding:8px 18px;border-radius:999px;font-weight:700;font-size:.9rem}
+
+  /* scores */
+  .scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:-48px;position:relative;z-index:2}
+  .score{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .score small{color:var(--muted);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+  .score .row{display:flex;justify-content:space-between;font-weight:700;margin-top:6px}
+  .score .live{color:var(--accent)}
+
+  /* sections */
+  section{padding:64px 0 0}
+  .sec-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:22px;border-bottom:3px solid var(--ink);padding-bottom:10px}
+  .sec-head h2{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;font-size:2rem;letter-spacing:.5px}
+  .sec-head a{font-weight:700;font-size:.9rem;color:var(--accent)}
+
+  .grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s, box-shadow .2s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.12)}
+  .card .img{aspect-ratio:16/10;overflow:hidden}
+  .card .img img{transition:transform .5s}
+  .card:hover .img img{transform:scale(1.05)}
+  .card .body{padding:16px 18px 20px;display:flex;flex-direction:column;gap:8px}
+  .card h3{font-size:1.1rem;line-height:1.3}
+  .card p{color:var(--muted);font-size:.92rem}
+  .meta{color:var(--muted);font-size:.78rem;font-weight:500}
+  .card.big{grid-row:span 2}
+  .card.big .img{aspect-ratio:auto;flex:1;min-height:280px}
+  .card.big h3{font-size:1.6rem}
+  @media (max-width:900px){.grid{grid-template-columns:1fr 1fr}.card.big{grid-column:span 2;grid-row:auto}}
+  @media (max-width:560px){.grid{grid-template-columns:1fr}.card.big{grid-column:auto}}
+
+  /* table + transfers */
+  .split{display:grid;grid-template-columns:1.3fr 1fr;gap:28px}
+  @media (max-width:860px){.split{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:.92rem}
+  th,td{padding:11px 14px;text-align:left}
+  th{background:var(--ink);color:#fff;font-size:.72rem;text-transform:uppercase;letter-spacing:.8px}
+  @media (prefers-color-scheme: dark){th{background:#05070b}}
+  td:not(:nth-child(2)),th:not(:nth-child(2)){text-align:center}
+  tr+tr td{border-top:1px solid var(--line)}
+  tbody tr:nth-child(-n+4) td:first-child{box-shadow:inset 4px 0 0 var(--pitch)}
+  .pts{font-weight:700}
+  .list{display:flex;flex-direction:column;gap:12px}
+  .mini{display:grid;grid-template-columns:96px 1fr;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .mini .img{height:84px}
+  .mini div:last-child{padding:10px 12px 10px 0}
+  .mini h4{font-size:.95rem;line-height:1.3;margin-bottom:4px}
+
+  /* newsletter */
+  .news{margin:72px 0 0;background:var(--pitch);color:#fff;border-radius:20px;padding:44px 32px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;position:relative;overflow:hidden}
+  .news::before{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border:4px solid rgba(255,255,255,.15);border-radius:50%}
+  .news h2{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;font-size:2.2rem;line-height:1}
+  .news p{opacity:.85;margin-top:8px}
+  .news form{display:flex;gap:10px;flex-wrap:wrap;position:relative}
+  .news input{flex:1;min-width:180px;padding:12px 16px;border-radius:999px;border:0;font:inherit}
+  .news .ok{font-weight:700;color:var(--gold)}
+  @media (max-width:760px){.news{grid-template-columns:1fr;padding:32px 22px}}
+
+  footer{margin-top:72px;background:var(--ink);color:#c9ced8;padding:36px 0;font-size:.85rem}
+  @media (prefers-color-scheme: dark){footer{background:#05070b}}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer .logo{color:#fff;font-size:1.4rem}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-label="Latest scores">
+  <div class="ticker-track">
+    <span>FULL TIME · Harbour City <b>3–1</b> Redmoor Athletic</span>
+    <span>LIVE 67' · Northgate Rovers <b>0–0</b> Ashvale United</span>
+    <span>FULL TIME · Kingsbridge FC <b>2–2</b> Port Elm Wanderers</span>
+    <span>TRANSFER · Okafor completes move to Harbour City</span>
+    <span>FULL TIME · Harbour City <b>3–1</b> Redmoor Athletic</span>
+    <span>LIVE 67' · Northgate Rovers <b>0–0</b> Ashvale United</span>
+    <span>FULL TIME · Kingsbridge FC <b>2–2</b> Port Elm Wanderers</span>
+    <span>TRANSFER · Okafor completes move to Harbour City</span>
+  </div>
+</div>
+
+<header>
+  <nav class="wrap">
+    <a class="logo" href="#">Touch<i>line</i></a>
+    <ul>
+      <li><a href="#latest">Latest</a></li>
+      <li><a href="#table">Table</a></li>
+      <li><a href="#transfers">Transfers</a></li>
+      <li><a href="#newsletter">Newsletter</a></li>
+    </ul>
+    <a class="btn" href="#newsletter">Subscribe</a>
+  </nav>
+</header>
+
+<section class="hero" style="padding:0">
+  <img src="images/hero.svg" alt="A floodlit football stadium at night with a ball on the centre spot">
+  <div class="wrap">
+    <span class="tag">Match Report</span>
+    <h1>Late drama under the <em>lights</em></h1>
+    <p>Harbour City came from behind to beat Redmoor Athletic 3–1, with two goals in the final ten minutes sending them top of the league.</p>
+    <div class="cta">
+      <a class="btn" href="#latest">Read the report</a>
+      <a class="btn-ghost" href="#table">View the table</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="scores">
+    <div class="score"><small>Full time</small><div class="row"><span>Harbour City</span><span>3</span></div><div class="row"><span>Redmoor Ath.</span><span>1</span></div></div>
+    <div class="score"><small class="live">● Live · 67'</small><div class="row"><span>Northgate Rov.</span><span>0</span></div><div class="row"><span>Ashvale Utd</span><span>0</span></div></div>
+    <div class="score"><small>Full time</small><div class="row"><span>Kingsbridge FC</span><span>2</span></div><div class="row"><span>Port Elm W.</span><span>2</span></div></div>
+    <div class="score"><small>Sat · 15:00</small><div class="row"><span>Ashvale Utd</span><span>–</span></div><div class="row"><span>Harbour City</span><span>–</span></div></div>
+  </div>
+
+  <section id="latest">
+    <div class="sec-head"><h2>Latest News</h2><a href="#">All stories →</a></div>
+    <div class="grid">
+      <a class="card big" href="#">
+        <div class="img"><img src="images/goal.svg" alt="Ball hitting the back of the net"></div>
+        <div class="body">
+          <span class="tag">Premier Division</span>
+          <h3>The 90th-minute winner that turned the title race upside down</h3>
+          <p>A curling finish into the top corner, a stadium on its feet, and a three-point swing nobody saw coming.</p>
+          <span class="meta">By Maya Ortiz · 4 min read</span>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="img"><img src="images/trophy.svg" alt="Gold trophy with confetti"></div>
+        <div class="body"><h3>Cup quarter-final draw: three derbies in four ties</h3><span class="meta">2h ago</span></div>
+      </a>
+      <a class="card" href="#">
+        <div class="img"><img src="images/tactics.svg" alt="Tactics board showing a 4-3-3 formation"></div>
+        <div class="body"><h3>Tactics: why the inverted full-back is everywhere</h3><span class="meta">5h ago</span></div>
+      </a>
+      <a class="card" href="#">
+        <div class="img"><img src="images/keeper.svg" alt="Goalkeeper diving to save a shot"></div>
+        <div class="body"><h3>Five saves of the weekend, ranked</h3><span class="meta">7h ago</span></div>
+      </a>
+      <a class="card" href="#">
+        <div class="img"><img src="images/crowd.svg" alt="Fans celebrating with flags"></div>
+        <div class="body"><h3>Inside the loudest away end in the country</h3><span class="meta">Yesterday</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="split">
+      <div id="table">
+        <div class="sec-head"><h2>League Table</h2><a href="#">Full table →</a></div>
+        <table>
+          <thead><tr><th>#</th><th>Club</th><th>P</th><th>GD</th><th>Pts</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Harbour City</td><td>11</td><td>+17</td><td class="pts">27</td></tr>
+            <tr><td>2</td><td>Ashvale United</td><td>11</td><td>+13</td><td class="pts">25</td></tr>
+            <tr><td>3</td><td>Kingsbridge FC</td><td>11</td><td>+9</td><td class="pts">22</td></tr>
+            <tr><td>4</td><td>Northgate Rovers</td><td>11</td><td>+6</td><td class="pts">20</td></tr>
+            <tr><td>5</td><td>Port Elm Wanderers</td><td>11</td><td>+2</td><td class="pts">17</td></tr>
+            <tr><td>6</td><td>Redmoor Athletic</td><td>11</td><td>-1</td><td class="pts">15</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="transfers">
+        <div class="sec-head"><h2>Transfers</h2><a href="#">More →</a></div>
+        <div class="list">
+          <a class="mini" href="#"><div class="img"><img src="images/boots.svg" alt="Football boots and ball"></div><div><h4>Okafor signs four-year deal at Harbour City</h4><span class="meta">Confirmed · 1h ago</span></div></a>
+          <a class="mini" href="#"><div class="img"><img src="images/keeper.svg" alt="Goalkeeper diving"></div><div><h4>Ashvale close in on veteran keeper as cover</h4><span class="meta">Rumour · 3h ago</span></div></a>
+          <a class="mini" href="#"><div class="img"><img src="images/tactics.svg" alt="Tactics board"></div><div><h4>Kingsbridge appoint new head of recruitment</h4><span class="meta">Confirmed · 6h ago</span></div></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="news" id="newsletter">
+    <div>
+      <h2>The final whistle,<br>in your inbox</h2>
+      <p>One email every Monday: the results, the talking points and the goals you missed.</p>
+    </div>
+    <form onsubmit="event.preventDefault(); this.innerHTML='<p class=&quot;ok&quot;>Thanks — you\'re on the list! ⚽</p>';">
+      <input type="email" required placeholder="you@example.com" aria-label="Email address">
+      <button class="btn" type="submit">Sign me up</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">Touch<i style="color:var(--gold);font-style:normal">line</i></span>
+    <span>Demo landing page. Clubs, players and stories are fictional sample content.</span>
+    <span>© 2026 Touchline</span>
+  </div>
+</footer>
+
+</body>
+</html>
