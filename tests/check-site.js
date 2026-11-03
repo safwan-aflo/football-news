@@ -67,6 +67,11 @@ const firstRow = leagueTable && leagueTable[1].match(/<tr>\s*<td>1<\/td>\s*<td>(
 if (!firstRow) fail('league table 1st-place row not found');
 else if (firstRow[1].trim() !== 'Real Madrid') fail(`league table 1st place is "${firstRow[1].trim()}", expected "Real Madrid"`);
 
+// 9. league table: 2nd-place club is Arsenal
+const secondRow = leagueTable && leagueTable[1].match(/<tr>\s*<td>2<\/td>\s*<td>([^<]*)<\/td>/i);
+if (!secondRow) fail('league table 2nd-place row not found');
+else if (secondRow[1].trim() !== 'Arsenal') fail(`league table 2nd place is "${secondRow[1].trim()}", expected "Arsenal"`);
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
