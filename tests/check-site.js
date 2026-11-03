@@ -61,6 +61,12 @@ for (const ref of refs.filter((r) => /\.svg($|[?#])/i.test(r) && !/^https?:/i.te
 // 7. no leftover demo/sample-content notice on the public page
 if (/Demo landing page|fictional sample content/i.test(html)) fail('demo/sample-content notice present on page');
 
+// 8. league table: 1st-place club is Real Madrid
+const leagueTable = html.match(/<div id="table">[\s\S]*?<tbody>([\s\S]*?)<\/tbody>/i);
+const firstRow = leagueTable && leagueTable[1].match(/<tr>\s*<td>1<\/td>\s*<td>([^<]*)<\/td>/i);
+if (!firstRow) fail('league table 1st-place row not found');
+else if (firstRow[1].trim() !== 'Real Madrid') fail(`league table 1st place is "${firstRow[1].trim()}", expected "Real Madrid"`);
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
