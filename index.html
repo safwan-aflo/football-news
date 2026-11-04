@@ -40,6 +40,8 @@
   nav ul a:hover{opacity:1;color:var(--gold)}
   .btn{background:var(--gold);color:#111;font-weight:700;padding:10px 18px;border-radius:999px;font-size:.9rem;border:0;cursor:pointer}
   .btn:hover{filter:brightness(1.05)}
+  .btn-bell{display:inline-flex;align-items:center;gap:6px}
+  .btn-bell .bell{flex:none}
   @media (max-width:760px){nav ul{display:none}}
 
   /* hero */
@@ -140,7 +142,7 @@
       <li><a href="#transfers">Transfers</a></li>
       <li><a href="#newsletter">Newsletter</a></li>
     </ul>
-    <a class="btn" href="#newsletter">Subscribe</a>
+    <a class="btn btn-bell" href="#newsletter"><svg class="bell" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Subscribe</a>
   </nav>
 </header>
 

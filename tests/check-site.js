@@ -77,6 +77,12 @@ const thirdRow = leagueTable && leagueTable[1].match(/<tr>\s*<td>3<\/td>\s*<td>(
 if (!thirdRow) fail('league table 3rd-place row not found');
 else if (thirdRow[1].trim() !== 'Bayern Munich') fail(`league table 3rd place is "${thirdRow[1].trim()}", expected "Bayern Munich"`);
 
+// 11. header Subscribe button shows a bell icon
+const header = html.match(/<header>[\s\S]*?<\/header>/i);
+const subscribe = header && header[0].match(/<a\b[^>]*>(?:(?!<\/a>)[\s\S])*Subscribe(?:(?!<\/a>)[\s\S])*<\/a>/i);
+if (!subscribe) fail('header Subscribe button not found');
+else if (!/<svg\b[^>]*class=["'][^"']*\bbell\b/i.test(subscribe[0])) fail('header Subscribe button has no bell icon');
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
