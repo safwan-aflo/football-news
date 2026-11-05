@@ -83,6 +83,18 @@ const subscribe = header && header[0].match(/<a\b[^>]*>(?:(?!<\/a>)[\s\S])*Subsc
 if (!subscribe) fail('header Subscribe button not found');
 else if (!/<svg\b[^>]*class=["'][^"']*\bbell\b/i.test(subscribe[0])) fail('header Subscribe button has no bell icon');
 
+// 12. header nav has an in-page 'About' link immediately after 'Newsletter'
+const navList = header && header[0].match(/<ul\b[^>]*>([\s\S]*?)<\/ul>/i);
+const navLinks = navList
+  ? [...navList[1].matchAll(/<a\b[^>]*href=["']([^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)].map((m) => ({ href: m[1], label: m[2].replace(/<[^>]*>/g, '').trim() }))
+  : [];
+const labels = navLinks.map((l) => l.label);
+const aboutIdx = labels.indexOf('About');
+if (!navList) fail('header nav list not found');
+else if (aboutIdx === -1) fail('header nav has no "About" link');
+else if (labels.indexOf('Newsletter') === -1 || aboutIdx !== labels.indexOf('Newsletter') + 1) fail(`header nav "About" is not right after "Newsletter" (order: ${labels.join(', ')})`);
+else if (!/^#./.test(navLinks[aboutIdx].href)) fail(`header nav "About" link should point to an in-page section, got "${navLinks[aboutIdx].href}"`);
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
