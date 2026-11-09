@@ -95,6 +95,15 @@ else if (aboutIdx === -1) fail('header nav has no "About" link');
 else if (labels.indexOf('Newsletter') === -1 || aboutIdx !== labels.indexOf('Newsletter') + 1) fail(`header nav "About" is not right after "Newsletter" (order: ${labels.join(', ')})`);
 else if (!/^#./.test(navLinks[aboutIdx].href)) fail(`header nav "About" link should point to an in-page section, got "${navLinks[aboutIdx].href}"`);
 
+// 13. header nav has an in-page 'Contact' link after 'Newsletter' that resolves to an existing id
+const contactIdx = labels.indexOf('Contact');
+const newsletterIdx = labels.indexOf('Newsletter');
+if (!navList) fail('header nav list not found');
+else if (contactIdx === -1) fail('header nav has no "Contact" link');
+else if (newsletterIdx === -1 || contactIdx < newsletterIdx) fail(`header nav "Contact" is not after "Newsletter" (order: ${labels.join(', ')})`);
+else if (!/^#./.test(navLinks[contactIdx].href)) fail(`header nav "Contact" link should point to an in-page section, got "${navLinks[contactIdx].href}"`);
+else if (!ids.includes(navLinks[contactIdx].href.slice(1))) fail(`header nav "Contact" link ${navLinks[contactIdx].href} has no matching id`);
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
