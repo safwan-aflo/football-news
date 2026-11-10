@@ -12,6 +12,7 @@
   :root{
     --ink:#0b0e14; --paper:#f4f1ea; --card:#ffffff; --muted:#5d6472;
     --accent:#e94b3c; --gold:#ffd23f; --pitch:#1f6b3a; --line:#e2ddd2;
+    --light-green:#90ee90;
   }
   @media (prefers-color-scheme: dark){
     :root{ --paper:#0d1017; --card:#161a23; --ink:#eef0f4; --muted:#9aa3b2; --line:#252b37; }
@@ -40,7 +41,7 @@
   nav ul a:hover{opacity:1;color:var(--gold)}
   .btn{background:var(--gold);color:#111;font-weight:700;padding:10px 18px;border-radius:999px;font-size:.9rem;border:0;cursor:pointer}
   .btn:hover{filter:brightness(1.05)}
-  .btn-bell{display:inline-flex;align-items:center;gap:6px}
+  .btn-bell{display:inline-flex;align-items:center;gap:6px;background:var(--light-green)}
   .btn-bell .bell{flex:none}
   @media (max-width:760px){nav ul{display:none}}
 

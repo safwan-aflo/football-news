@@ -104,6 +104,16 @@ else if (newsletterIdx === -1 || contactIdx < newsletterIdx) fail(`header nav "C
 else if (!/^#./.test(navLinks[contactIdx].href)) fail(`header nav "Contact" link should point to an in-page section, got "${navLinks[contactIdx].href}"`);
 else if (!ids.includes(navLinks[contactIdx].href.slice(1))) fail(`header nav "Contact" link ${navLinks[contactIdx].href} has no matching id`);
 
+// 14. header Subscribe button is light green
+const css = (html.match(/<style>([\s\S]*?)<\/style>/i) || [])[1] || '';
+const rootVars = Object.fromEntries([...((css.match(/:root\s*\{([^}]*)\}/) || [])[1] || '').matchAll(/(--[\w-]+)\s*:\s*([^;]+)/g)].map((m) => [m[1], m[2].trim()]));
+const bellRule = css.match(/\.btn-bell\s*\{([^}]*)\}/);
+const bellBgRaw = bellRule && (bellRule[1].match(/background(?:-color)?\s*:\s*([^;]+)/) || [])[1];
+const bellBgVar = bellBgRaw && bellBgRaw.trim().match(/^var\((--[\w-]+)\)$/);
+const bellBg = (bellBgVar ? rootVars[bellBgVar[1]] : bellBgRaw || '').trim().toLowerCase();
+if (!subscribe || !/class=["'][^"']*\bbtn-bell\b/i.test(subscribe[0])) fail('header Subscribe button has no btn-bell class');
+else if (!['#90ee90', 'lightgreen'].includes(bellBg)) fail(`header Subscribe button background is "${bellBg || 'inherited from .btn'}", expected light green (#90ee90)`);
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
