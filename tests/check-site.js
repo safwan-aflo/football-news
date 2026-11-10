@@ -114,6 +114,18 @@ const bellBg = (bellBgVar ? rootVars[bellBgVar[1]] : bellBgRaw || '').trim().toL
 if (!subscribe || !/class=["'][^"']*\bbtn-bell\b/i.test(subscribe[0])) fail('header Subscribe button has no btn-bell class');
 else if (!['#90ee90', 'lightgreen'].includes(bellBg)) fail(`header Subscribe button background is "${bellBg || 'inherited from .btn'}", expected light green (#90ee90)`);
 
+// 15. header has an accessible inbox icon link right next to the Subscribe button
+const navActions = header && header[0].match(/<div\b[^>]*class=["'][^"']*\bnav-actions\b[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+const actionLinks = navActions ? navActions[1].match(/<a\b[^>]*>[\s\S]*?<\/a>/gi) || [] : [];
+const inboxIdx = actionLinks.findIndex((a) => /\saria-label=["']Inbox["']/i.test(a));
+const inbox = actionLinks[inboxIdx];
+if (!navActions) fail('header has no .nav-actions group around the Subscribe button');
+else if (!inbox) fail('header has no link with aria-label="Inbox"');
+else if (!/<svg\b[^>]*class=["'][^"']*\binbox\b/i.test(inbox) || !/<svg\b[^>]*aria-hidden=["']true["']/i.test(inbox)) fail('header inbox link has no aria-hidden inbox icon');
+else if (/Subscribe/i.test(inbox)) fail('header inbox link must not contain the text "Subscribe"');
+else if (!/\shref=["']#[^"']+["']/i.test(inbox)) fail('header inbox link should point to an in-page section');
+else if (!actionLinks.some((a, i) => Math.abs(i - inboxIdx) === 1 && /Subscribe/i.test(a))) fail('header inbox link is not directly next to the Subscribe button');
+
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s):\n  - ${errors.join('\n  - ')}`);
   process.exit(1);
